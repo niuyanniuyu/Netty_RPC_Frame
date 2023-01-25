@@ -10,11 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-/**
- * 统一的消息编解码器
- *
- * @author Ben
- */
+
 @Slf4j
 /**
  * 必须和 LengthFieldBasedFrameDecoder 一起使用，确保接到的 ByteBuf 消息是完整的
@@ -86,7 +82,6 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
         //确定具体消息类型，因为直接传入Message.class会丢失部分属性
         Class<?> messageClass = Message.getMessageClass(messageType);
         Message message = (Message) algorithm.deSerialize(messageClass, bytes);
-
 
         if (message != null) {
             log.info("消息头信息：{}, {}, {}, {}, {}, {}", magicNum, version, serializerType, messageType, sequenceId, length);

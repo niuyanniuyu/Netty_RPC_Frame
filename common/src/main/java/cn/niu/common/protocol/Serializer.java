@@ -1,5 +1,6 @@
 package cn.niu.common.protocol;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -96,14 +97,14 @@ public interface Serializer {
         JSON {
             @Override
             public <T> byte[] serialize(T object) {
-                String message = com.alibaba.fastjson2.JSON.toJSONString(object);
+                String message = com.alibaba.fastjson.JSON.toJSONString(object);
                 return message.getBytes(StandardCharsets.UTF_8);
             }
 
             @Override
             public <T> T deSerialize(Class<T> clazz, byte[] bytes) {
                 String message = new String(bytes, StandardCharsets.UTF_8);
-                return com.alibaba.fastjson2.JSON.parseObject(message, clazz);
+                return com.alibaba.fastjson.JSON.parseObject(message, clazz);
             }
         },
 
