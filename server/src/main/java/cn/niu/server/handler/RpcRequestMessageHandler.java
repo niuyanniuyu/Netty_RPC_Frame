@@ -2,9 +2,8 @@ package cn.niu.server.handler;
 
 import cn.niu.common.message.RpcRequestMessage;
 import cn.niu.common.message.RpcResponseMessage;
-import cn.niu.server.service.HelloService;
+import cn.niu.common.service.HelloService;
 import cn.niu.server.service.factories.ServicesFactory;
-import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -23,6 +22,7 @@ public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcReq
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcRequestMessage message) {
         RpcResponseMessage rpcResponseMessage = new RpcResponseMessage();
+        rpcResponseMessage.setSequenceId(message.getSequenceId());
         try {
             // 获取真正的实现对象
             HelloService service = (HelloService) ServicesFactory.getService(Class.forName(message.getInterfaceName()));
@@ -35,7 +35,10 @@ public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcReq
 
         } catch (Exception e) {
             log.error("发生异常 {}", e.toString());
-            rpcResponseMessage.setReturnValue(e);
+
+            Exception exception = new Exception("远程调用失败："+e.getCause().getMessage());
+            exception.setStackTrace(new StackTraceElement[]{new StackTraceElement(message.getInterfaceName(), message.getMethodName(), "", -1)});
+            rpcResponseMessage.setExceptionValue(exception);
         }
 
         // 返回结果

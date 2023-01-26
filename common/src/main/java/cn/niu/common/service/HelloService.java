@@ -1,4 +1,4 @@
-package cn.niu.server.service;
+package cn.niu.common.service;
 
 
 /**

@@ -52,8 +52,6 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
 
         //写入结果
         outList.add(out);
-
-
     }
 
     /**

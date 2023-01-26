@@ -1,7 +1,7 @@
-package cn.niu.server.service.Impl;
+package cn.niu.common.service.Impl;
 
 
-import cn.niu.server.service.HelloService;
+import cn.niu.common.service.HelloService;
 
 /**
  * HelloWorld接口实现类
